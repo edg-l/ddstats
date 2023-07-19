@@ -26,9 +26,9 @@
 			-->
 		</div>
 
-		<!--	<div>
-			<a href="/search" class="inline-block mt-0 text-gray-200 hover:text-white mr-4">Search</a>
-		</div>-->
+		<div>
+			<a href="https://db.ddstats.org" class="inline-block mt-0 text-gray-200 hover:text-white mr-4">Datasette</a>
+		</div>
 	</div>
 </nav>
 
