@@ -26,9 +26,9 @@
 			-->
 		</div>
 
-		<div>
+		<!--	<div>
 			<a href="/search" class="inline-block mt-0 text-gray-200 hover:text-white mr-4">Search</a>
-		</div>
+		</div>-->
 	</div>
 </nav>
 
