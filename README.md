@@ -2,6 +2,10 @@
 
 A DDNet / teeworlds fancy information frontend.
 
+# Discord
+
+You can join here: https://discord.gg/2Bwz2rn3YJ
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
