@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { ServerEntry } from '$lib';
 	import Card from '$lib/components/Card.svelte';
-	import CardHeader from '$lib/components/CardHeader.svelte';
 	import Container from '$lib/components/Container.svelte';
 	import Paginate from '$lib/components/Paginate.svelte';
 	import ServerCard from '$lib/components/ServerCard.svelte';
@@ -21,7 +20,7 @@
 		} else if (a.info.clients.length > b.info.clients.length) {
 			return -1;
 		} else {
-			return 0;
+			return a.info.name.localeCompare(b.info.name);
 		}
 	});
 
@@ -49,7 +48,7 @@
 	</Card>
 
 	<Card class="px-4 py-3 my-2 flex justify-center">
-		<Paginate total={data.servers.servers.length} bind:page />
+		<Paginate total={Math.floor(data.servers.servers.length / perPage)} bind:page />
 	</Card>
 
 	{#each currentServers as server}

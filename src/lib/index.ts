@@ -7,35 +7,35 @@ export interface ServerList {
 }
 
 export interface ServerEntry {
-    addresses: String[],
-    location: String,
+    addresses: string[],
+    location: string,
     info: {
         max_clients: number,
         max_players: number,
         passworded: boolean,
-        game_type: String,
-        name: String,
+        game_type: string,
+        name: string,
         map: {
-            name: String,
-            sha256?: String,
+            name: string,
+            sha256?: string,
             size: number,
         },
-        version: String,
+        version: string,
         clients: ClientEntry[],
         [key: string]: any
     }
 }
 
 export interface ClientEntry {
-    name: String,
-    clan: String,
+    name: string,
+    clan: string,
     country: number,
     score: number,
     is_player: boolean,
     afk?: boolean,
     team?: number,
     skin?: {
-        name: String,
+        name: string,
         color_body?: number,
         color_feet?: number,
     },
