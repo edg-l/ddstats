@@ -44,4 +44,8 @@
 			Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 		</a>
 	</p>
+	<p class="text-muted text-center mt-4">
+		Code Released under AGPL-3, you can find the source code
+		<a class="text-teal-400 font-bold" href="https://github.com/edg-l/ddstats">here</a>.
+	</p>
 </footer>

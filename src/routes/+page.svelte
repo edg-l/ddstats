@@ -1,7 +1,9 @@
 <script lang="ts">
+	import type { ServerEntry } from '$lib';
 	import Card from '$lib/components/Card.svelte';
 	import CardHeader from '$lib/components/CardHeader.svelte';
 	import Container from '$lib/components/Container.svelte';
+	import Paginate from '$lib/components/Paginate.svelte';
 	import ServerCard from '$lib/components/ServerCard.svelte';
 	import type { PageData } from './$types';
 
@@ -22,12 +24,20 @@
 			return 0;
 		}
 	});
+
+	let page = 0;
+	let perPage = 10;
+
 	let totalPlayers = 0;
+	let currentServers: ServerEntry[] = [];
 	$: {
 		totalPlayers = data.servers.servers
 			.filter((x) => x.info.clients !== undefined)
 			.map((x) => x.info.clients.length)
 			.reduce((a, b) => a + b, 0);
+	}
+	$: {
+		currentServers = data.servers.servers.slice(page * perPage, page * perPage + perPage);
 	}
 </script>
 
@@ -38,7 +48,11 @@
 		<p>Total players: {totalPlayers}</p>
 	</Card>
 
-	{#each data.servers.servers as server}
+	<Card class="px-4 py-3 my-2 flex justify-center">
+		<Paginate total={data.servers.servers.length} bind:page />
+	</Card>
+
+	{#each currentServers as server}
 		<ServerCard {server} />
 	{/each}
 </Container>
