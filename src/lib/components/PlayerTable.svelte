@@ -27,11 +27,12 @@
 					<th class="px-2 py-2 text-left">Team</th>
 					<th class="px-2 py-2 text-left">Skin</th>
 					<th class="px-2 py-2 text-left">Afk?</th>
+					<th class="px-2 py-2 text-left">Spectating?</th>
 				</tr>
 			</thead>
 			<tbody class="bg-gray-800 border border-gray-800">
 				{#each clients as client, i}
-					<tr class="even:bg-gray-700">
+					<tr class="border border-gray-700">
 						<td>{i + 1}</td>
 						<td class="px-2 py-2 font-bold text-left">{client.name}</td>
 						<td class="px-2 py-2 font-bold text-left">{client.clan}</td>
@@ -58,7 +59,8 @@
 								{client.skin.name}
 							{/if}
 						</td>
-						<td class="px-2 py-2 font-bold text-left">{client.afk}</td>
+						<td class="px-2 py-2 font-bold text-left">{client.afk ? 'Yes' : 'No'}</td>
+						<td class="px-2 py-2 font-bold text-left">{client.is_player ? 'No' : 'Yes'}</td>
 					</tr>
 				{/each}
 			</tbody>

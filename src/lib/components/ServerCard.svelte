@@ -9,18 +9,20 @@
 	if (server.info.clients !== undefined) {
 		server.info.clients = server.info.clients.filter((x) => x.name !== '(connecting)');
 		server.info.clients.sort((a, b) => {
-			if (a.score === -9999) {
+			if (a.score === -9999 && b.score !== -9999) {
 				return 1;
-			}
-			if (b.score === -9999) {
+			} else if (b.score === -9999 && a.score !== -9999) {
 				return -1;
+			} else if (b.score === -9999 && a.score === -9999) {
+				return a.name.localeCompare(b.name);
 			}
+
 			if (a.score < b.score) {
 				return -1;
 			} else if (a.score > b.score) {
 				return 1;
 			} else {
-				return 0;
+				return a.name.localeCompare(b.name);
 			}
 		});
 	}
@@ -41,7 +43,9 @@
 	<CardHeader>
 		<div class="flex items-center justify-between flex-wrap">
 			<h3 class="font-bold">{server.info.name}</h3>
-			<span class="text-sm"
+			<span class="flex-1" />
+			<span class="mx-2 font-bold">{server.info.game_type}</span> |
+			<span class="text-sm mx-2"
 				><a class="text-teal-100 font-bold" href={`ddnet://${server.addresses[0].replace(address_re, '')}`}
 					>Connect to {server.addresses[0].replace(address_re, '')}</a
 				></span
@@ -50,12 +54,13 @@
 	</CardHeader>
 	<div class="px-4 py-3">
 		{#if server.info.map !== undefined && server.info.map.name !== undefined}
-			<p>Map: {server.info.map.name}</p>
+			<p title={server.info.map.sha256 || 'unknown sha256'}>Map: {server.info.map.name}</p>
+			<p>Map Size: {(server.info.map.size / 1024).toFixed(2)} kb</p>
 		{/if}
 
 		<p>Players: {(server.info.clients && server.info.clients.length) || 0} / {server.info.max_clients}</p>
 	</div>
-	<div class="px-4 py-3 cursor-pointer bg-teal-700" on:click={() => (open = !open)}>View Players</div>
+	<div class="px-4 py-3 cursor-pointer bg-gray-900" on:click={() => (open = !open)}>View Players</div>
 	{#if open}
 		<PlayerTable clients={server.info.clients} />
 	{/if}
