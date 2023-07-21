@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let total: number;
 	export let page: number = 0;
-	// show 3 before and 3 after current page before using skip markers.
+	// show 3 before and 3 after current page
 	export let margin = 3;
 	let clazz: string | null | undefined = undefined;
 	export { clazz as class };
@@ -11,24 +11,18 @@
 </script>
 
 <ul class="{clazz} gap-1 inline-flex">
-	{#if page != 0}
-		<li>
-			<button class={pageClass} on:click={() => (page = 0)}>First</button>
-		</li>
-	{/if}
-	{#if total > 0 && page > 0}
-		<li>
-			<button class={pageClass} on:click={() => (page -= 1)}>Previous</button>
-		</li>
-	{/if}
+	<li>
+		<button disabled={page == 0} class={pageClass} on:click={() => (page = 0)}>&lt;&lt;</button>
+	</li>
+	<li>
+		<button disabled={page == 0} class={pageClass} on:click={() => (page -= 1)}>&lt;</button>
+	</li>
 
 	{#each { length: Math.min(total, margin) + 1 } as _, i}
 		{@const reversedIndex = margin - i}
 		{#if page - reversedIndex > 0}
 			<li>
-				<button class={pageClass} on:click={() => (page = page - reversedIndex - 1)}
-					>{page - reversedIndex}</button
-				>
+				<button class={pageClass} on:click={() => (page = page - reversedIndex - 1)}>{page - reversedIndex}</button>
 			</li>
 		{/if}
 	{/each}
@@ -42,14 +36,10 @@
 			</li>
 		{/if}
 	{/each}
-	{#if page < total}
-		<li>
-			<button class={pageClass} on:click={() => (page += 1)}>Next</button>
-		</li>
-	{/if}
-	{#if page < total}
-		<li>
-			<button class={pageClass} on:click={() => (page = total)}>Last</button>
-		</li>
-	{/if}
+	<li>
+		<button disabled={page >= total} class={pageClass} on:click={() => (page += 1)}>&gt;</button>
+	</li>
+	<li>
+		<button disabled={page >= total} class={pageClass} on:click={() => (page = total)}>&gt;&gt;</button>
+	</li>
 </ul>
