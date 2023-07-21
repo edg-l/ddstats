@@ -4,12 +4,12 @@
 	import CardHeader from '$lib/components/CardHeader.svelte';
 	import countries from '../countries.json';
 
-	const code_to_country: Record<number, String> = {};
+	const code_to_country: Record<number, { id: string; name: string }> = {};
 	for (let c of countries) {
-		code_to_country[c.id] = c.alpha2.toUpperCase();
+		code_to_country[c.id] = { id: c.alpha2.toUpperCase(), name: c.name };
 	}
 
-	code_to_country[-1] = 'default';
+	code_to_country[-1] = { id: 'default', name: '' };
 
 	export let clients: ClientEntry[];
 </script>
@@ -26,8 +26,8 @@
 					<th class="px-2 py-2 text-left">Score / Time</th>
 					<th class="px-2 py-2 text-left">Team</th>
 					<th class="px-2 py-2 text-left">Skin</th>
-					<th class="px-2 py-2 text-left">Afk?</th>
-					<th class="px-2 py-2 text-left">Spectating?</th>
+					<th class="px-2 py-2 text-left">AFK</th>
+					<th class="px-2 py-2 text-left">Spectating</th>
 				</tr>
 			</thead>
 			<tbody class="bg-gray-800 border border-gray-800">
@@ -39,8 +39,10 @@
 						<td class="px-2 py-2 font-bold text-center"
 							>{#if code_to_country[client.country] !== undefined}
 								<img
-									width="64px"
-									src={`https://ddnet.org/status/countryflags/${code_to_country[client.country]}.png`}
+									alt={code_to_country[client.country].name}
+									title={code_to_country[client.country].name}
+									style="width: 64px; height: 32px;"
+									src={`https://ddnet.org/status/countryflags/${code_to_country[client.country].id}.png`}
 								/>
 							{/if}</td
 						>
