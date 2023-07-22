@@ -50,9 +50,9 @@
 						<td class="px-2 py-2 font-bold text-left"
 							>{client.score} / {client.score === -9999
 								? '00:00'
-								: `${Math.floor(client.score / 60)
+								: `${Math.floor(Math.abs(client.score) / 60)
 										.toString()
-										.padStart(2, '0')}:${((client.score - Math.floor(client.score / 60)) % 60)
+										.padStart(2, '0')}:${((Math.abs(client.score) - Math.floor(Math.abs(client.score) / 60)) % 60)
 										.toString()
 										.padStart(2, '0')}`}</td
 						>
