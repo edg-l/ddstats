@@ -1,8 +1,8 @@
 <script lang="ts">
 	export let total: number;
 	export let page: number = 0;
-	// show 3 before and 3 after current page
-	export let margin = 3;
+	// show 1 before and 1 after current page
+	export let margin = 1;
 	let clazz: string | null | undefined = undefined;
 	export { clazz as class };
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ServerEntry } from '$lib';
+	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Container from '$lib/components/Container.svelte';
-	import Paginate from '$lib/components/Paginate.svelte';
 	import ServerCard from '$lib/components/ServerCard.svelte';
+	import VirtualList from '$lib/components/VirtualList.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -24,34 +24,33 @@
 		}
 	});
 
-	let page = 0;
-	let perPage = 10;
-
 	let totalPlayers = 0;
-	let currentServers: ServerEntry[] = [];
+
 	$: {
 		totalPlayers = data.servers.servers
 			.filter((x) => x.info.clients !== undefined)
 			.map((x) => x.info.clients.length)
 			.reduce((a, b) => a + b, 0);
 	}
-	$: {
-		currentServers = data.servers.servers.slice(page * perPage, page * perPage + perPage);
-	}
 </script>
 
+<Button
+	class="fixed bottom-8 right-8"
+	on:click={() =>
+		window.scrollTo({
+			top: 0
+		})}>Go to top</Button
+>
+
 <Container>
-	<Card class="px-4 py-3">
+	<Card class="px-4 py-3 mb-4">
 		<p class="font-bold text-4xl mb-2">Server Browser</p>
 		<p>Here you can search through the master server list.</p>
 		<p>Total players: {totalPlayers}</p>
 	</Card>
 
-	<Card class="px-4 py-3 my-2 flex justify-center">
-		<Paginate total={Math.floor(data.servers.servers.length / perPage)} bind:page />
-	</Card>
-
-	{#each currentServers as server, index (page * perPage + index)}
-		<ServerCard {server} />
-	{/each}
+	<VirtualList height="200vh" items={data.servers.servers} let:item>
+		<!-- this will be rendered for each currently visible item -->
+		<ServerCard server={item} />
+	</VirtualList>
 </Container>

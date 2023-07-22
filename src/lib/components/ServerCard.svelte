@@ -54,8 +54,19 @@
 	</CardHeader>
 	<div class="px-4 py-3">
 		{#if server.info.map !== undefined && server.info.map.name !== undefined}
-			<p title={server.info.map.sha256 || 'unknown sha256'}>Map: {server.info.map.name}</p>
-			<p>Map Size: {(server.info.map.size / 1024).toFixed(2)} kb</p>
+			<p title={server.info.map.sha256 || 'unknown sha256'}>
+				Map: {server.info.map.name}
+				{#if server.info.game_type === 'DDraceNetwork'}
+					(<a class="text-teal-400 font-bold" href="https://ddnet.org/maps/{server.info.map.name}/">DDNet</a>)
+				{/if}
+			</p>
+			<p>Map Size: {(server.info.map.size / 1024).toFixed(2)} KiB</p>
+		{/if}
+		{#if server.location !== undefined}
+			<p>Location: {server.location.toUpperCase()}</p>
+		{/if}
+		{#if server.info.version !== undefined}
+			<p>Version: {server.info.version}</p>
 		{/if}
 
 		<p>Players: {(server.info.clients && server.info.clients.length) || 0} / {server.info.max_clients}</p>
