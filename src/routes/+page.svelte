@@ -7,7 +7,6 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
 	data.servers.servers.sort((a, b) => {
 		if (a.info.clients === undefined) {
 			return 1;
@@ -15,9 +14,11 @@
 		if (b.info.clients === undefined) {
 			return -1;
 		}
-		if (a.info.clients.length < b.info.clients.length) {
+		let a_len = a.info.clients.filter((x) => x.name !== '(connecting)');
+		let b_len = b.info.clients.filter((x) => x.name !== '(connecting)');
+		if (a_len < b_len) {
 			return 1;
-		} else if (a.info.clients.length > b.info.clients.length) {
+		} else if (a_len > b_len) {
 			return -1;
 		} else {
 			return a.info.name.localeCompare(b.info.name);
