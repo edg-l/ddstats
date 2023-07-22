@@ -44,7 +44,7 @@
 </script>
 
 <Button
-	class="fixed bottom-8 right-8"
+	class="fixed bottom-8 right-8 z-10"
 	on:click={() =>
 		window.scrollTo({
 			top: 0

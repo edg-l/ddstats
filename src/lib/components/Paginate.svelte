@@ -7,10 +7,10 @@
 	export { clazz as class };
 
 	let pageClass =
-		'text-center block border border-gray-500 hover:border-teal-400 text-teal-500 hover:bg-gray-800 py-2 px-6 w-full h-full font-bold text-lg';
+		'text-center block border border-gray-500 hover:border-teal-400 text-teal-500 hover:bg-gray-800 py-1 px-3 w-full h-full font-bold text-lg';
 </script>
 
-<ul class="{clazz} gap-1 inline-flex">
+<ul class="{clazz} gap-1 inline-flex flex-wrap">
 	<li>
 		<button disabled={page == 0} class={pageClass} on:click={() => (page = 0)}>&lt;&lt;</button>
 	</li>

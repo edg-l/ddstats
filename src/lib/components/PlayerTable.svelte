@@ -36,12 +36,13 @@
 						<td>{i + 1}</td>
 						<td class="px-2 py-2 font-bold text-left">{client.name}</td>
 						<td class="px-2 py-2 font-bold text-left">{client.clan}</td>
-						<td class="px-2 py-2 font-bold text-center"
+						<td class="px-2 py-2 font-bold text-center flex justify-center"
 							>{#if code_to_country[client.country] !== undefined}
 								<img
 									alt={code_to_country[client.country].name}
 									title={code_to_country[client.country].name}
-									style="width: 64px; height: 32px;"
+									width="64px"
+									height="32px"
 									src={`https://ddnet.org/status/countryflags/${code_to_country[client.country].id}.png`}
 								/>
 							{/if}</td
