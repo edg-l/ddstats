@@ -3,6 +3,7 @@
 	import Card from '$lib/components/Card.svelte';
 	import CardHeader from '$lib/components/CardHeader.svelte';
 	import countries from '../countries.json';
+	import Tee from './Tee.svelte';
 
 	const code_to_country: Record<number, { id: string; name: string }> = {};
 	for (let c of countries) {
@@ -59,7 +60,7 @@
 						<td class="px-2 py-2 font-bold text-left">{client.team}</td>
 						<td class="px-2 py-2 font-bold text-left">
 							{#if client.skin !== undefined}
-								{client.skin.name}
+								<Tee name={client.skin.name} />
 							{/if}
 						</td>
 						<td class="px-2 py-2 font-bold text-left">{client.afk ? 'Yes' : 'No'}</td>
