@@ -9,10 +9,16 @@
 	let imageLink = `https://api.skins.tw/api/resolve/skins/${name}`;
 
 	let canvas: HTMLCanvasElement;
+	let found = false;
 
 	async function loadImage(imageLink: string) {
-		let blob = await fetch(imageLink).then((r) => r.blob());
-		return createImageBitmap(blob);
+		let blob = await fetch(imageLink, { cache: 'force-cache', credentials: 'omit' }).then((r) => r.blob());
+		let bitmap = await createImageBitmap(blob, {
+			resizeWidth: 256,
+			resizeHeight: 128,
+			resizeQuality: 'high'
+		});
+		return bitmap;
 	}
 
 	function renderSkin(skin: CanvasImageSource) {
@@ -36,9 +42,21 @@
 		ctx.restore();
 	}
 	onMount(async () => {
-		let imgData = await loadImage(imageLink);
-		renderSkin(imgData);
+		found = !localStorage.getItem(imageLink);
+		if (!localStorage.getItem(imageLink)) {
+			try {
+				let imgData = await loadImage(imageLink);
+				if (imgData) renderSkin(imgData);
+			} catch (e) {
+				localStorage.setItem(imageLink, 'not-found');
+				found = false;
+			}
+		}
 	});
 </script>
 
-<canvas bind:this={canvas} class={clazz} width="96" height="94" />
+{#if !found}
+	<span class={clazz}>{name}</span>
+{:else}
+	<canvas bind:this={canvas} class={clazz} width="96" height="64" />
+{/if}
