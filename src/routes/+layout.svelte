@@ -1,9 +1,5 @@
 <script lang="ts">
 	import '../app.css';
-
-	import Alert from '$lib/components/Alert.svelte';
-	import Container from '$lib/components/Container.svelte';
-	import Button from '$lib/components/Button.svelte';
 </script>
 
 <svelte:head>
@@ -27,6 +23,7 @@
 		</div>
 
 		<div>
+			<a href="/players" class="inline-block mt-0 text-gray-200 hover:text-white mr-4">Players</a>
 			<a href="https://db.ddstats.org" class="inline-block mt-0 text-gray-200 hover:text-white mr-4">Datasette</a>
 		</div>
 	</div>
