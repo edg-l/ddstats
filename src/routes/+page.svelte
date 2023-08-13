@@ -1,45 +1,35 @@
 <script lang="ts">
-	import type { ServerEntry } from '$lib';
+	import { fetchMaster, type ServerEntry, type ServerList } from '$lib';
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Container from '$lib/components/Container.svelte';
 	import Paginate from '$lib/components/Paginate.svelte';
 	import ServerCard from '$lib/components/ServerCard.svelte';
-	import type { PageData } from './$types';
+	import { formatDistanceToNow } from 'date-fns';
+	import { serverStore } from '$lib/stores';
 
-	export let data: PageData;
-	data.servers.servers.sort((a, b) => {
-		if (a.info.clients === undefined) {
-			return 1;
-		}
-		if (b.info.clients === undefined) {
-			return -1;
-		}
-		let a_len = a.info.clients.filter((x) => x.name !== '(connecting)');
-		let b_len = b.info.clients.filter((x) => x.name !== '(connecting)');
-		if (a_len < b_len) {
-			return 1;
-		} else if (a_len > b_len) {
-			return -1;
-		} else {
-			return a.info.name.localeCompare(b.info.name);
-		}
+	let servers: ServerList = {
+		servers: {},
+		sorted: [],
+		total_players: 0,
+		updated: new Date()
+	};
+
+	serverStore.subscribe((x) => {
+		servers = x;
 	});
 
 	let page = 0;
 	let perPage = 100;
 
-	let totalPlayers = 0;
 	let currentServers: ServerEntry[] = [];
-
 	$: {
-		totalPlayers = data.servers.servers
-			.filter((x) => x.info.clients !== undefined)
-			.map((x) => x.info.clients.length)
-			.reduce((a, b) => a + b, 0);
+		currentServers = servers.sorted.slice(page * perPage, page * perPage + perPage);
 	}
-	$: {
-		currentServers = data.servers.servers.slice(page * perPage, page * perPage + perPage);
+
+	async function update() {
+		const servers = await fetchMaster(fetch);
+		serverStore.set(servers);
 	}
 </script>
 
@@ -55,11 +45,13 @@
 	<Card class="px-4 py-3">
 		<p class="font-bold text-4xl mb-2">Server Browser</p>
 		<p>Here you can search through the master server list.</p>
-		<p>Total players: {totalPlayers}</p>
+		<Button class="float-right" on:click={() => update()}>Update</Button>
+		<p>Total players: <b>{servers.total_players}</b></p>
+		<p title={servers.updated.toString()}>Updated {formatDistanceToNow(servers.updated)} ago.</p>
 	</Card>
 
 	<Card class="px-4 py-3 my-2 flex justify-center">
-		<Paginate total={Math.floor(data.servers.servers.length / perPage)} bind:page />
+		<Paginate total={Math.floor(servers.sorted.length / perPage)} bind:page />
 	</Card>
 
 	{#each currentServers as server, index (page * perPage + index)}
@@ -67,6 +59,6 @@
 	{/each}
 
 	<Card class="px-4 py-3 my-2 flex justify-center">
-		<Paginate total={Math.floor(data.servers.servers.length / perPage)} bind:page />
+		<Paginate total={Math.floor(servers.sorted.length / perPage)} bind:page />
 	</Card>
 </Container>

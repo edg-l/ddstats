@@ -1,10 +1,9 @@
 import { fetchMaster } from '$lib';
+import { serverStore } from '$lib/stores';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
-    const servers = await fetchMaster(fetch);
+	const servers = await fetchMaster(fetch);
 
-    return {
-        servers
-    };
+	serverStore.set(servers);
 };
