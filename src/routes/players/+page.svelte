@@ -7,6 +7,7 @@
 	import { serverStore } from '$lib/stores';
 	import countries from '$lib/countries.json';
 	import Tee from '$lib/components/Tee.svelte';
+	import Fuse from 'fuse.js';
 
 	interface ClientInfo {
 		client: ClientEntry;
@@ -14,6 +15,14 @@
 	}
 
 	let players: ClientInfo[] = [];
+	let playerSearch: ClientInfo[] = [];
+
+	const fuseOptions = {
+		includeScore: true,
+		keys: ['client.name']
+	};
+
+	let fuse: Fuse<ClientInfo> | null = null;
 
 	serverStore.subscribe((servers) => {
 		players = [];
@@ -32,16 +41,13 @@
 			});
 		});
 		players.reverse();
+		playerSearch = players;
+		fuse = new Fuse(players, fuseOptions);
 	});
 
 	let page = 0;
 	let perPage = 250;
 	let inputSearch = '';
-
-	let currentPlayers: ClientInfo[] = [];
-	$: {
-		currentPlayers = players.slice(page * perPage, page * perPage + perPage);
-	}
 
 	async function update() {
 		const servers = await fetchMaster(fetch);
@@ -54,22 +60,29 @@
 	}
 
 	code_to_country[-1] = { id: 'default', name: '' };
+	code_to_country[906] = { id: 'XCA', name: '' };
 
 	const address_re = /.*\/\//;
 
+	let currentPlayers: ClientInfo[] = [];
+	$: {
+		currentPlayers = players.slice(page * perPage, page * perPage + perPage);
+	}
+
 	async function onSearch() {
-		const servers = await fetchMaster(fetch);
-		serverStore.set(servers);
+		let what = inputSearch.trim();
+		if (what.length > 0) {
+			playerSearch = fuse!.search(what).map((x) => x.item);
+		} else {
+			playerSearch = players;
+		}
+		page = 0;
+	}
+
+	function truncate(str: string, n: number) {
+		return str.length > n ? str.slice(0, n - 1) + '...' : str;
 	}
 </script>
-
-<Button
-	class="fixed bottom-8 right-8 z-10"
-	on:click={() =>
-		window.scrollTo({
-			top: 0
-		})}>Go to top</Button
->
 
 <Container>
 	<Card class="px-4 py-3">
@@ -92,7 +105,7 @@
 	</Card>
 
 	<Card class="px-4 py-3 my-2 flex justify-center">
-		<Paginate total={Math.floor(players.length / perPage)} bind:page />
+		<Paginate total={Math.floor(playerSearch.length / perPage)} bind:page />
 	</Card>
 
 	<div class="flex w-full bg-gray-700 shadow-md">
@@ -111,13 +124,13 @@
 					</tr>
 				</thead>
 				<tbody class="bg-gray-800 border border-gray-800">
-					{#each currentPlayers as client, index (page * perPage + index)}
+					{#each playerSearch as client, index (page * perPage + index)}
 						<tr class="border border-gray-700">
 							<td class="px-2 py-2 font-bold text-left">{client.client.name}</td>
 							<td class="px-2 py-2 font-bold text-left">{client.client.clan}</td>
 							<td class="px-2 py-2 font-bold text-left">
 								{#if client.server.info.map !== undefined}
-									{client.server.info.map.name}
+									<span title={client.server.info.map.name}>{truncate(client.server.info.map.name.trim(), 20)}</span>
 								{/if}
 							</td>
 							<td class="px-2 py-2 font-bold text-left"
@@ -126,7 +139,7 @@
 									href={`ddnet://${client.server.addresses[0].replace(address_re, '')}`}>{client.server.info.name}</a
 								></td
 							>
-							<td class="px-2 py-2 font-bold text-center flex justify-center"
+							<td class="px-2 py-2 font-bold text-center flex justify-center" title={client.client.country}
 								>{#if code_to_country[client.client.country] !== undefined}
 									<img
 										alt={code_to_country[client.client.country].name}
@@ -152,6 +165,6 @@
 	</div>
 
 	<Card class="px-4 py-3 my-2 flex justify-center">
-		<Paginate total={Math.floor(players.length / perPage)} bind:page />
+		<Paginate total={Math.floor(playerSearch.length / perPage)} bind:page />
 	</Card>
 </Container>

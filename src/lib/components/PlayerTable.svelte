@@ -11,6 +11,7 @@
 	}
 
 	code_to_country[-1] = { id: 'default', name: '' };
+	code_to_country[906] = { id: 'XCA', name: '' };
 
 	export let clients: ClientEntry[];
 </script>
