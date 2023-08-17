@@ -27,11 +27,15 @@
 	serverStore.subscribe((servers) => {
 		players = [];
 		for (const server of servers.sorted) {
-			for (const player of server.info.clients) {
-				players.push({
-					client: player,
-					server: server
-				});
+			if (server.info.clients !== undefined) {
+				for (const player of server.info.clients) {
+					if (player.name !== undefined && player.name !== '') {
+						players.push({
+							client: player,
+							server: server
+						});
+					}
+				}
 			}
 		}
 		players.sort((a, b) => {
