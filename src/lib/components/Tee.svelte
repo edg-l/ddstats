@@ -12,7 +12,9 @@
 	let found = false;
 
 	async function loadImage(imageLink: string) {
-		let blob = await fetch(imageLink).then((r) => r.blob());
+		let blob = await fetch(imageLink, {
+			mode: 'cors'
+		}).then((r) => r.blob());
 		let bitmap = await createImageBitmap(blob, {
 			resizeWidth: 256,
 			resizeHeight: 128
@@ -41,19 +43,24 @@
 		ctx.restore();
 	}
 	onMount(async () => {
-		if (name !== '' && name !== undefined) {
+		if (name !== '' && name !== undefined && canvas !== undefined) {
 			try {
 				let imgData = await loadImage(imageLink);
-				if (imgData) renderSkin(imgData);
+				if (imgData) {
+					renderSkin(imgData);
+					found = true;
+				}
 			} catch (e) {
+				canvas.height = 0;
+				canvas.width = 0;
+				console.error(e);
 				found = false;
 			}
 		}
 	});
 </script>
 
+<canvas bind:this={canvas} class={clazz} width="96" height="64" />
 {#if !found}
-	<span class={clazz}>{name}</span>
-{:else}
-	<canvas bind:this={canvas} class={clazz} width="96" height="64" />
+	<span class={clazz} title={imageLink}>{name}</span>
 {/if}
