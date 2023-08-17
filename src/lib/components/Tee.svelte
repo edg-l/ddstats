@@ -6,17 +6,16 @@
 
 	export let name: string;
 
-	let imageLink = `https://api.skins.tw/api/resolve/skins/${name}`;
+	let imageLink = `https://assets.ddstats.org/skins/${name}.png`;
 
 	let canvas: HTMLCanvasElement;
 	let found = false;
 
 	async function loadImage(imageLink: string) {
-		let blob = await fetch(imageLink, { cache: 'force-cache', credentials: 'omit' }).then((r) => r.blob());
+		let blob = await fetch(imageLink).then((r) => r.blob());
 		let bitmap = await createImageBitmap(blob, {
 			resizeWidth: 256,
-			resizeHeight: 128,
-			resizeQuality: 'high'
+			resizeHeight: 128
 		});
 		return bitmap;
 	}
@@ -42,13 +41,11 @@
 		ctx.restore();
 	}
 	onMount(async () => {
-		found = !localStorage.getItem(imageLink);
-		if (!localStorage.getItem(imageLink)) {
+		if (name !== '' && name !== undefined) {
 			try {
 				let imgData = await loadImage(imageLink);
 				if (imgData) renderSkin(imgData);
 			} catch (e) {
-				localStorage.setItem(imageLink, 'not-found');
 				found = false;
 			}
 		}

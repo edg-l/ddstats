@@ -50,7 +50,7 @@
 	});
 
 	let page = 0;
-	let perPage = 250;
+	let perPage = 50;
 	let inputSearch = '';
 
 	async function update() {
@@ -70,7 +70,7 @@
 
 	let currentPlayers: ClientInfo[] = [];
 	$: {
-		currentPlayers = players.slice(page * perPage, page * perPage + perPage);
+		currentPlayers = playerSearch.slice(page * perPage, page * perPage + perPage);
 	}
 
 	async function onSearch() {
@@ -128,7 +128,7 @@
 					</tr>
 				</thead>
 				<tbody class="bg-gray-800 border border-gray-800">
-					{#each playerSearch as client, index (page * perPage + index)}
+					{#each currentPlayers as client, index (page * perPage + index)}
 						<tr class="border border-gray-700">
 							<td class="px-2 py-2 font-bold text-left">{client.client.name}</td>
 							<td class="px-2 py-2 font-bold text-left">{client.client.clan}</td>
@@ -143,7 +143,7 @@
 									href={`ddnet://${client.server.addresses[0].replace(address_re, '')}`}>{client.server.info.name}</a
 								></td
 							>
-							<td class="px-2 py-2 font-bold text-center flex justify-center" title={client.client.country}
+							<td class="px-2 py-2 font-bold text-center flex justify-center" title={client.client.country.toString()}
 								>{#if code_to_country[client.client.country] !== undefined}
 									<img
 										alt={code_to_country[client.client.country].name}
