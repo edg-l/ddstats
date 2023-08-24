@@ -22,8 +22,16 @@
 	let inputSearch = '';
 
 	const fuseOptions = {
-		includeScore: true,
-		keys: ['client.name']
+		keys: [
+			{
+				name: 'client.name',
+				weight: 2
+			},
+			{
+				name: 'client.clan',
+				weight: 1
+			}
+		]
 	};
 
 	let fuse: Fuse<ClientInfo> | null = null;
@@ -100,6 +108,7 @@
 			<input
 				type="text"
 				name="search"
+				placeholder="Player name or clan"
 				class="my-2 shadow border border-teal-400 rounded
             w-3/5
 						py-2 px-3 text-white bg-gray-700 focus:bg-gray-800
