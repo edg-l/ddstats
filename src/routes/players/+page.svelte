@@ -17,6 +17,10 @@
 	let players: ClientInfo[] = [];
 	let playerSearch: ClientInfo[] = [];
 
+	let page = 0;
+	let perPage = 50;
+	let inputSearch = '';
+
 	const fuseOptions = {
 		includeScore: true,
 		keys: ['client.name']
@@ -47,11 +51,8 @@
 		players.reverse();
 		playerSearch = players;
 		fuse = new Fuse(players, fuseOptions);
+		onSearch();
 	});
-
-	let page = 0;
-	let perPage = 50;
-	let inputSearch = '';
 
 	async function update() {
 		const servers = await fetchMaster(fetch);
@@ -95,17 +96,19 @@
 		<p>Total players: <b>{players.length}</b></p>
 		<Button class="float-right" on:click={() => update()}>Update</Button>
 
-		<input
-			type="text"
-			name="search"
-			class="my-2 shadow border border-teal-400 rounded
+		<form on:submit|preventDefault={() => onSearch()}>
+			<input
+				type="text"
+				name="search"
+				class="my-2 shadow border border-teal-400 rounded
             w-3/5
 						py-2 px-3 text-white bg-gray-700 focus:bg-gray-800
 						flex-1 max-w-screen-sm
 					 	focus:outline-none focus:shadow-outline"
-			bind:value={inputSearch}
-		/>
-		<Button class="ml-2" on:click={() => onSearch()}>Search player</Button>
+				bind:value={inputSearch}
+			/>
+			<Button class="ml-2">Search player</Button>
+		</form>
 	</Card>
 
 	<Card class="px-4 py-3 my-2 flex justify-center">
