@@ -128,7 +128,7 @@
 					</tr>
 				</thead>
 				<tbody class="bg-gray-800 border border-gray-800">
-					{#each currentPlayers as client, index (page * perPage + index)}
+					{#each currentPlayers as client (client)}
 						<tr class="border border-gray-700">
 							<td class="px-2 py-2 font-bold text-left">{client.client.name}</td>
 							<td class="px-2 py-2 font-bold text-left">{client.client.clan}</td>
@@ -154,7 +154,7 @@
 									/>
 								{/if}</td
 							>
-							<td class="px-2 py-2 font-bold text-left">
+							<td class="px-2 py-2 font-bold text-left" title={client.client.skin ? client.client.skin.name : ''}>
 								{#if client.client.skin !== undefined}
 									<Tee name={client.client.skin.name} />
 								{/if}

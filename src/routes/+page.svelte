@@ -54,7 +54,7 @@
 		<Paginate total={Math.floor(servers.sorted.length / perPage)} bind:page />
 	</Card>
 
-	{#each currentServers as server, index (page * perPage + index)}
+	{#each currentServers as server, index (server)}
 		<ServerCard {server} />
 	{/each}
 
