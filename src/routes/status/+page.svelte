@@ -16,16 +16,28 @@
 
 		<ul class="my-2 list-disc list-inside">
 			<li>
-				<span class="font-bold">master1.ddnet.org</span> ({data.status.master1?.status}) {data.status.master1?.ms} ms
+				<a class="text-teal-400 font-bold" href="https://master1.ddnet.org/ddnet/15/servers.json">master1.ddnet.org</a>
+				({data.status.master1?.status}) {data.status.master1?.ms} ms
 			</li>
 			<li>
-				<span class="font-bold">master2.ddnet.org</span> ({data.status.master2?.status}) {data.status.master2?.ms} ms
+				<a class="text-teal-400 font-bold" href="https://master2.ddnet.org/ddnet/15/servers.json">master2.ddnet.org</a>
+				({data.status.master2?.status}) {data.status.master2?.ms} ms
 			</li>
-			<li><span class="font-bold">ddnet.org</span> ({data.status.ddnet?.status}) {data.status.ddnet?.ms} ms</li>
-			<li><span class="font-bold">forum.ddnet.org</span> ({data.status.forum?.status}) {data.status.forum?.ms} ms</li>
-			<li><span class="font-bold">wiki.ddnet.org</span> ({data.status.wiki?.status}) {data.status.wiki?.ms} ms</li>
 			<li>
-				<span class="font-bold">codedoc.ddnet.org</span> ({data.status.codedoc?.status}) {data.status.codedoc?.ms} ms
+				<a class="text-teal-400 font-bold" href="https://ddnet.org/">ddnet.org</a> ({data.status.ddnet?.status}) {data
+					.status.ddnet?.ms} ms
+			</li>
+			<li>
+				<a class="text-teal-400 font-bold" href="https://forum.ddnet.org/">forum.ddnet.org</a> ({data.status.forum
+					?.status}) {data.status.forum?.ms} ms
+			</li>
+			<li>
+				<a class="text-teal-400 font-bold" href="https://wiki.ddnet.org/">wiki.ddnet.org</a> ({data.status.wiki
+					?.status}) {data.status.wiki?.ms} ms
+			</li>
+			<li>
+				<a class="text-teal-400 font-bold" href="https://codedoc.ddnet.org/">codedoc.ddnet.org</a> ({data.status.codedoc
+					?.status}) {data.status.codedoc?.ms} ms
 			</li>
 		</ul>
 	</Card>
