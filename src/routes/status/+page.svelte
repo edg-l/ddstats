@@ -15,8 +15,12 @@
 		<p>Ping is relative to Helsinki (europe)</p>
 
 		<ul class="my-2 list-disc list-inside">
-			<li><span class="font-bold">master1</span> ({data.status.master1?.status}) {data.status.master1?.ms} ms</li>
-			<li><span class="font-bold">master2</span> ({data.status.master2?.status}) {data.status.master2?.ms} ms</li>
+			<li>
+				<span class="font-bold">master1.ddnet.org</span> ({data.status.master1?.status}) {data.status.master1?.ms} ms
+			</li>
+			<li>
+				<span class="font-bold">master2.ddnet.org</span> ({data.status.master2?.status}) {data.status.master2?.ms} ms
+			</li>
 			<li><span class="font-bold">ddnet.org</span> ({data.status.ddnet?.status}) {data.status.ddnet?.ms} ms</li>
 			<li><span class="font-bold">forum.ddnet.org</span> ({data.status.forum?.status}) {data.status.forum?.ms} ms</li>
 			<li><span class="font-bold">wiki.ddnet.org</span> ({data.status.wiki?.status}) {data.status.wiki?.ms} ms</li>
