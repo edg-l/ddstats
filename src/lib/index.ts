@@ -52,7 +52,13 @@ export interface ClientEntry {
 }
 
 export async function fetchMaster(fetch: Fetch): Promise<ServerList> {
-	const res = await fetch('https://master1.ddnet.org/ddnet/15/servers.json');
+	const controller = new AbortController();
+	const id = setTimeout(() => controller.abort(), 5000);
+	const res = await fetch('https://master1.ddnet.org/ddnet/15/servers.json', {
+		signal: controller.signal
+	});
+	clearTimeout(id);
+
 	const list: InternalServerList = await res.json();
 
 	const servers: ServerList = {

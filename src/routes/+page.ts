@@ -3,7 +3,11 @@ import { serverStore } from '$lib/stores';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
-	const servers = await fetchMaster(fetch);
+	try {
+		const servers = await fetchMaster(fetch);
 
-	serverStore.set(servers);
+		serverStore.set(servers);
+	} catch (e) {
+		console.log(e);
+	}
 };

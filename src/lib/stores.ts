@@ -5,5 +5,5 @@ export const serverStore = writable<ServerList>({
 	servers: {},
 	sorted: [],
 	total_players: 0,
-	updated: new Date()
+	updated: new Date(),
 });
