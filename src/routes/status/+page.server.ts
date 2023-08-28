@@ -1,6 +1,5 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import fetch from "node-fetch"
 
 async function fetchPing(url: string): Promise<{ ms: number, status: number } | null> {
     const controller = new AbortController();
@@ -56,7 +55,7 @@ let lastStatus: {
 
 export const load: PageServerLoad = async ({ params }) => {
     const older = Date.now() - 1000 * 30;
-    if (lastStatus.last.getTime() < older) {
+    if (lastStatus.last.getTime() < older || lastStatus.master1 === null) {
         lastStatus = {
             ddnet: await fetchPing('https://ddnet.org/'),
             forum: await fetchPing('https://forum.ddnet.org/'),
