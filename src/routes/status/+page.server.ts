@@ -62,6 +62,7 @@ export const load: PageServerLoad = async ({ params }) => {
             wiki: await fetchPing('https://ddnet.org/'),
             master1: await fetchPing('https://master1.ddnet.org/ddnet/15/servers.json'),
             master2: await fetchPing('https://master2.ddnet.org/ddnet/15/servers.json'),
+            codedoc: await fetchPing('https://codedoc.ddnet.org/'),
             last: new Date()
         }
     }

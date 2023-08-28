@@ -24,6 +24,9 @@
 			<li><span class="font-bold">ddnet.org</span> ({data.status.ddnet?.status}) {data.status.ddnet?.ms} ms</li>
 			<li><span class="font-bold">forum.ddnet.org</span> ({data.status.forum?.status}) {data.status.forum?.ms} ms</li>
 			<li><span class="font-bold">wiki.ddnet.org</span> ({data.status.wiki?.status}) {data.status.wiki?.ms} ms</li>
+			<li>
+				<span class="font-bold">codedoc.ddnet.org</span> ({data.status.codedoc?.status}) {data.status.codedoc?.ms} ms
+			</li>
 		</ul>
 	</Card>
 </Container>
