@@ -42,6 +42,10 @@ let lastStatus: {
         ms: number;
         status: number;
     } | null;
+    codedoc: {
+        ms: number;
+        status: number;
+    } | null;
     last: Date,
 } = {
     master1: null,
