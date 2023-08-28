@@ -55,6 +55,7 @@ export async function fetchMaster(fetch: Fetch): Promise<ServerList> {
 	const controller = new AbortController();
 	const id = setTimeout(() => controller.abort(), 5000);
 	const res = await fetch('https://master1.ddnet.org/ddnet/15/servers.json', {
+		mode: "cors",
 		signal: controller.signal
 	});
 	clearTimeout(id);
