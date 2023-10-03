@@ -35,6 +35,9 @@
 
 			// console.log("Message from server ", event.data);
 		});
+		return () => {
+			socket.close(0, 'disconnected');
+		};
 	});
 </script>
 
@@ -49,7 +52,12 @@
 <Container>
 	<Card class="px-4 py-3">
 		<p class="font-bold text-4xl mb-2">Master Events</p>
-		<p>A live view on the events tracked on master by teeobserver.</p>
+		<p>
+			A live view on the events tracked on master by <a
+				href="https://github.com/edg-l/teeobserver"
+				class="text-teal-400 font-bold">teeobserver</a
+			>.
+		</p>
 	</Card>
 
 	<div class="overflow-y-auto" style="max-height: 60vh;">
