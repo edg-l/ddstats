@@ -1,5 +1,6 @@
 import type { ServerList } from '$lib';
-import { readable, writable } from 'svelte/store';
+import type { MasterEvent } from '$lib/teeobserver';
+import { writable } from 'svelte/store';
 
 export const serverStore = writable<ServerList>({
 	servers: {},
@@ -7,3 +8,5 @@ export const serverStore = writable<ServerList>({
 	total_players: 0,
 	updated: new Date(),
 });
+
+export const eventsStore = writable<MasterEvent[]>([]);

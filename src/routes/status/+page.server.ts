@@ -53,6 +53,7 @@ let lastStatus: {
     wiki: null,
     master2: null,
     ddnet: null,
+    codedoc: null,
     last: new Date("01-01-2000")
 }
 
