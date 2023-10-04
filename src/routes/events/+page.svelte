@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 
 	let events: MasterEvent[] = [];
+	let observers = 0;
 	eventsStore.subscribe((x) => {
 		events = x;
 	});
@@ -17,7 +18,9 @@
 		const socket = new WebSocket('wss://observer.ddstats.org/ws');
 
 		socket.addEventListener('message', (event) => {
-			eventsBuffer.push(JSON.parse(event.data));
+			let eventParsed: MasterEvent = JSON.parse(event.data);
+			eventsBuffer.push(eventParsed);
+			observers = eventParsed.observers;
 
 			let now = Date.now();
 			if (eventsBuffer.length > 50 || last_update + 1000 < now) {
@@ -58,6 +61,7 @@
 				class="text-teal-400 font-bold">teeobserver</a
 			>.
 		</p>
+		<p>There are currently <span class="font-bold">{observers}</span> users watching.</p>
 	</Card>
 
 	<div class="overflow-y-auto" style="max-height: 60vh;">
